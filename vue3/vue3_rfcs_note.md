@@ -20,7 +20,7 @@ Vue3本次變更就是依照該份文件變改，本份文件就只針對Vue3的
 請參照 [\[ jangarc.github.io \]](https://jangarc.github.io/index.html) 
 {% endhint %}
 
-## \# \] 全域化API
+## \#  全域化API
 
 該變化最主要是分離了一些內部API到全域上，而且還很貼心了兼容了解耦引用，也就是說全部被公開的API都不再依賴this，我覺的這也是為了composition api（可組合API）做優化，同時也提升了開發的可選擇性，該變更帶來的好處就是在開發打包時我們沒有引用的包，將可以不被打包在專案裡。
 
