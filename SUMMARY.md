@@ -1,6 +1,6 @@
 # Table of contents
 
-* [個人筆記/Note](README.md)
+* [index](README.md)
 
 ## Vue3
 
