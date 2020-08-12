@@ -1,8 +1,8 @@
 # Table of contents
 
-* [Vue 3 RFCS Note](README.md)
+* [個人筆記/Note](README.md)
 
 ## Vue3
 
-* [Untitled](vue3/untitled.md)
+* [Vue 3 RFCS Note](vue3/untitled.md)
 

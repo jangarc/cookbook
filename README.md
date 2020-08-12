@@ -1,8 +1,8 @@
-# Vue 3 RFCS Note
+---
+description: Arc的個人筆記
+---
 
-Vue 3 RFCS Note 本篇主要是我讀完Vue3 RFCS全部項目後做的筆記
-
-Vue3本次變更就是依照該份文件變改，本份文件就只針對Vue3的標準功能部份的變更做簡略說明及示例，如果想了解每個RFC更多的設計原理，可以直接前往 [Github參考vuejs/rfcs](https://github.com/vuejs/rfcs)
+# 個人筆記/Note
 
 > **\[注意\]** 由於RFCS清單內的流水號順序，並不是很適合想從Vue2升Vue3的使用者觀看，所以我會依應用順序逐一解說**（會關聯對應的RFCS NO.供連結）**，如果有較大型的新概念或變更將會抽離到獨立的文章上做介紹。
 
