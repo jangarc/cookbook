@@ -4,13 +4,11 @@ description: VUE 3 Composition API / 可組合API
 
 # Composition API
 
-
-
 {% hint style="info" %}
 本篇主要針對Vue3的Composition API做說明，如果想簡略的了解為何該使用Composition API，請參考上一篇的[Composition API介紹](https://jang-arc.gitbook.io/my-cookbook/vue3/vue3_rfcs_note#zhi-you-jie-shao-composition-api-zu-he-shi-api)
 {% endhint %}
 
-觀看本篇前需要事先了解的事情，這也是我認為最先需要了解的特性，在Vue3中提供了全域化API，如下例。我們可以看到可以直接把Vue提供的函式解耦後直接使用。
+觀看本篇前需要事先了解的事情，這也是我認為最先需要了解的特性，就是在Vue3中提供的全域化API，如下例。我們可以看到，可以把Vue提供的函式解耦後直接使用。
 
 ```javascript
 const { h, createApp } = Vue;
@@ -26,9 +24,9 @@ app.mount("#app");
 
 ## \# Composition API的基本開發環境及程式撰寫風格
 
-這裡來我們來看一下如果你使用Composition API開發程式碼，大致的開發結構
+這裡來我們來看一下如果你使用Composition API開發程式碼，大致的開發結構。
 
-**\[範例 1\]** 不使用 Vue.createApp
+**\[範例 1\]** 不依賴 Vue.createApp的情況下使用Composition API
 
 ```markup
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.0.0-rc.5/vue.global.prod.js"></script>
@@ -71,9 +69,9 @@ watchEffect(() => CountBlock.text(state.count));
 
 上例我們可以看到幾個特性：
 
-1. 全域API
+1. 全域API的使用方式
 2. 沒有強制使用Virtual DOM\(沒有Vue.createApp\(\).mount過程\)
-3. 俱備reatcivity\(反應性\)函式watchEffect
+3. 可以使用watchEffect來補捉資料的變更
 4. 沒有this
 
 **\[範例 2\]** 使用 Vue.creaetApp.mount\(\) + HTML template
@@ -121,7 +119,7 @@ watchEffect(() => CountBlock.text(state.count));
 </script>
 ```
 
-上例和第一個例子的差異，可以看到是沒有使用watch或watchEffect做資料監控，使用setup做為人口點，將監控的資料return給Vue內部
+上例和第一個例子的差異，可以看到是在沒有使用watch或watchEffect做資料監控，使用setup做為人口函式，將監控的資料return給Vue使用。
 
 **\[範例 3\]** 使用 Vue.creaetApp.mount\(\) + return render function
 
@@ -145,6 +143,7 @@ watchEffect(() => CountBlock.text(state.count));
       const increase = () => { state.count++; };
       const decreasing = () => { if(state.count > 0) state.count-- };
 
+      // [注意] 這裡是一個函式
       return () => [
         h("h1", "Vue 3 Composition API"),
         h("h2", "一個沒有this的專案開發風格"),
@@ -163,11 +162,11 @@ watchEffect(() => CountBlock.text(state.count));
 </script>
 ```
 
-接下來我將逐一介紹常用API
+以上三個例子結果都是等價的，接下來讓我們看一下一些常用的API。
 
 ## \# 資料類API
 
-### \#\# reactive API
+### + reactive API
 
 **\[功能\]** 用來建立俱反應性資料，可以配合watchEffect和watch做監控，當資料變更時可以補捉並進行事件觸發。 **\[允許資料格式\]** Object/Array
 
@@ -180,7 +179,7 @@ const increase = () => { state.count++; };
 const decreasing = () => { if(state.count > 0) state.count-- };
 ```
 
-### \#\# ref API
+### + ref API
 
 **\[功能\]** 功能和reactive相同，不同的是ref可以針對Boolean/Number/String等非object資料進行監控。 **\[允許資料格式\]** Boolean/Number/String
 
@@ -193,7 +192,7 @@ const increase = () => { count.value++; };
 const decreasing = () => { if(count.value > 0) count.value-- };
 ```
 
-### \#\# computed API
+### + computed API
 
 **\[功能\]** 就像Vue2中的option computed用途相同
 
@@ -207,7 +206,7 @@ const userData = reactive({
 });
 ```
 
-### \#\# readonly API
+### + readonly API
 
 **\[功能\]** 用來引用指定reactive或ref資料並產生一個只讀資料
 
@@ -217,7 +216,7 @@ const { reactive, computed } = Vue;
 const userData = reactive({ count});
 ```
 
-### \#\# watch / watchEffect API
+### + watch / watchEffect API
 
 **\[功能\]** 可以針對已建立的反應性資料\(reactive, ref\)進行監控，讓開發人員在沒有綁定Vue.createApp的情況下仍然擁有監控資料的能力。
 
