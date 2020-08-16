@@ -4,8 +4,6 @@ description: VUE 3 Composition API / 可組合API
 
 # Composition API
 
-
-
 {% hint style="info" %}
 本篇主要針對Vue3的Composition API做說明，如果想簡略的了解為何該使用Composition API，請參考上一篇的[Composition API介紹](https://jang-arc.gitbook.io/my-cookbook/vue3/vue3_rfcs_note#zhi-you-jie-shao-composition-api-zu-he-shi-api)
 {% endhint %}
@@ -363,25 +361,209 @@ createApp({
 
 ## \# template
 
-**待撰寫**
+在Vue中獲得template的方式如下：
 
-撰寫備註：
+* 基本的綁定方式使用HTML Template
 
-1. 使用HTML Template
-2. 使用Option template
-3. 使用Render function
-   * 使用 setup 
-   * 混用 setup + option
-4. 為什麼需要JSX
+```markup
+<div id="app">
+  <h1>{{title}}</h1>
+</div>
+
+<script>
+
+const { createApp, ref } = Vue;
+
+createApp({
+  setup(){
+
+    let title = ref("Vue 3 Composition API");
+
+    return {
+      title
+    };
+  }
+})
+.mount("#app")
+
+</script>
+`
+```
+
+* 和HTML template相同的方式可以使用option template，下例與上例基本上是等價的。
+
+```markup
+<div id="app"></div>
+
+<script>
+
+const { createApp, ref } = Vue;
+
+createApp({
+  template: `<h1>{{title}}</h1>`,
+  setup(){
+
+    let title = ref("Vue 3 Composition API");
+
+    return {
+      title
+    };
+  }
+})
+.mount("#app")
+
+</script>
+`
+```
+
+使用以上這種方式雖然方便，但在進階應用上其實少了某些應用彈性。如下例：
+
+```markup
+<div id="app">
+  <h1>Books</h1>
+  <h2>Art book</h2>
+  <ul>
+    <li v-for="book in artItems">{{book.name}}</li>
+  </ul>
+  <h2>Design book</h2>
+  <ul>
+    <li v-for="book in designItems">{{book.name}}</li>
+  </ul>
+</div>
+```
+
+我們可以看到在art和design的清單上基本都是同一個邏輯清單，但在template方解決方式內時，我們只能使用component的方式或多重迴圈的方式來解決。從這個點上我們可能會希望那個重覆區塊是一個可重用區塊，並在我們希望能擴充功能時，只要更改單一區域就能同時讓多個顯示區域都得到更新。說了這麼多我們來看一下另一種template選擇。
+
+* 使用render function
+
+```javascript
+const { h, createApp, reactive } = Vue;
+
+createApp({
+  setup(){
+
+    let state = reactive({
+      artItems: [/* ... */],
+      designItems: [/* ... */],
+    });
+
+    // 抽離部份顯示邏輯
+    let renderBookItems = items => h(
+      "ul", 
+      null, 
+      items.map( book => h("li", null, [book.name]))
+    );
+
+    return () =>  [
+      h("h1", "Books"),
+      renderBookItems(state.artItems), // 重用
+      h("h2", "Art book"),
+      h("h2", "Design book"),
+      renderBookItems(state.designItems), // 重用
+    ];
+
+  }
+})
+.mount("#app");
+```
+
+看完了上例，我們可以發現重用性的問題解決了，但似乎又衍伸了另一個煩人的問題，render function的使用方式用來開發較複雜旳專案時，將會變的難以維護！於是乎我最後的選擇就是能保有html template的簡略同時也能保有render function的彈性的選擇jsx。
+
+* 使用jsx
+
+```javascript
+const { h, createApp, reactive } = Vue;
+
+createApp({
+  setup(){
+
+    let state = reactive({
+      artItems: [/* ... */],
+      designItems: [/* ... */],
+    });
+
+    let renderBookItems = items => <ul>
+      { items.map( book => <li>{item.name}</li> ) }
+    </ul>;
+
+    return () => [
+      <h1>Books</h1>
+      renderBookItems(state.artItems),
+      <h2>Art book</h2>,
+      <h2>Design book</h2>,
+      renderBookItems(state.designItems),
+    ];
+
+  }
+})
+.mount("#app");
+```
+
+最終我們可以看到以上程式碼，不僅擁有邏輯拆分的彈性也能保有HTML節點式的開發方式，一切似乎變的更好了。
 
 ## \# component
 
-**待撰寫**
+在了解了上篇的template應用後，不管邏輯如何拆分為了更好的分類管理以重用，我們可能需要把component化管理，讓component可以沿伸應用再不同專案中。
 
-撰寫備註：
+### + 使用resolveComponent使用全域component
 
-1. Component的應用
-2. Render function與component
+使用該函式可以確保引用到己註冊compnent
+
+```javascript
+const { h, createApp, resolveComponent } = Vue;
+
+const app = createApp({
+  setup(){
+    const header = resolveComponent("header");
+    return h(header);
+  }
+});
+
+// 註冊全域component
+app.component("header", {template: `<h1>Example</h1>`})
+
+app.mount("#app");
+```
+
+### + functional component
+
+```javascript
+const { h, createApp, resolveComponent } = Vue;
+
+const app = createApp({
+  setup(props, ){
+
+    const state = {
+      title: "Example",
+      bestBooks: [
+        {name:"book1"}, 
+        {name:"book2"}
+      ],
+    };
+
+    const header = resolveComponent("header");
+    const books = resolveComponent("books");
+
+    return () => [
+      h(header, {title: state.title}),
+      h(books, {items: state.bestBooks})
+    ];
+
+  }
+});
+
+// functional component
+const headerComp = (props) => h("h1", null, props.title);
+headerComp.props = ["title"];
+
+const bookItemsComp = (props) => h("ul", null, props.items.map( book => h("li", null, book.name) ) ) ;
+bookItemsComp.props = ["items"];
+
+app.component("header", headerComp);
+app.component("books", bookItemsComp);
+
+app.mount("#app");
+```
 
 ## \# 程式碼的拆分與組合概念
 
