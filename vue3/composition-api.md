@@ -4,6 +4,8 @@ description: VUE 3 Composition API / 可組合API
 
 # Composition API
 
+
+
 {% hint style="info" %}
 本篇主要針對Vue3的Composition API做說明，如果想簡略的了解為何該使用Composition API，請參考上一篇的[Composition API介紹](https://jang-arc.gitbook.io/my-cookbook/vue3/vue3_rfcs_note#zhi-you-jie-shao-composition-api-zu-he-shi-api)
 {% endhint %}
@@ -280,17 +282,15 @@ increase(); // => 不會再被觸發
 
 在Vue3轉換成全域API如下：
 
-```text
-onBeforeMount
-onMounted
-onBeforeUpdate
-onUpdated
-onBeforeUnmount
-onUnmounted
-onErrorCaptured
-onRenderTracked**\[新增\]**
-onRenderTriggered**\[新增\]**
-```
+* onBeforeMount
+* onMounted
+* onBeforeUpdate
+* onUpdated
+* onBeforeUnmount
+* onUnmounted
+* onErrorCaptured
+* onRenderTracked**\[新增\]**
+* onRenderTriggered**\[新增\]**
 
 ```javascript
 const { createApp, reactive, watchEffect, onMounted } = Vue;
