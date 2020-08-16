@@ -5,5 +5,5 @@
 ## Vue3
 
 * [Vue 3 RFCS Note](vue3/vue3_rfcs_note.md)
-* [Composition API](vue3/composition-api.md)
+* [index](vue3/composition-api.md)
 

@@ -2,7 +2,7 @@
 description: VUE 3 Composition API / 可組合API
 ---
 
-# Composition API
+# index
 
 {% hint style="info" %}
 本篇主要針對Vue3的Composition API做說明，如果想簡略的了解為何該使用Composition API，請參考上一篇的[Composition API介紹](https://jang-arc.gitbook.io/my-cookbook/vue3/vue3_rfcs_note#zhi-you-jie-shao-composition-api-zu-he-shi-api)
@@ -240,7 +240,11 @@ readonlyState.count++; // 這將會觸發一個錯誤因為資料唯讀
 
 **\[功能\]** 可以針對已建立的反應性資料\(reactive, ref\)進行監控，讓開發人員在沒有綁定Vue.createApp的情況下仍然擁有監控資料的能力。
 
-**\[使用方式\]** 1. For reactive: watch\(`Function`\) 2. For ref: watch\(`variable name`, `Function`\) 3. For ref: watch\(`variable name Array`, `Function`\)
+**\[使用方式\]**
+
+1. For reactive: watch\(`Function`\) 
+2. For ref: watch\(`variable name`, `Function`\) 
+3. For ref: watch\(`variable name Array`, `Function`\) 
 
 下例為 reactive + watchEffect
 
@@ -276,7 +280,17 @@ increase(); // => 不會再被觸發
 
 在Vue3轉換成全域API如下：
 
-onBeforeMount onMounted onBeforeUpdate onUpdated onBeforeUnmount onUnmounted onErrorCaptured onRenderTracked**\[新增\]** onRenderTriggered**\[新增\]**
+```text
+onBeforeMount
+onMounted
+onBeforeUpdate
+onUpdated
+onBeforeUnmount
+onUnmounted
+onErrorCaptured
+onRenderTracked**\[新增\]**
+onRenderTriggered**\[新增\]**
+```
 
 ```javascript
 const { createApp, reactive, watchEffect, onMounted } = Vue;
@@ -316,7 +330,10 @@ createApp({
 
 在Vue3中提供了全域的資料應用API`provide/inject`，應用方式是在指定模組中使用provide提供接口，當有其它的component需要使用時，只要使用inject就可以從中提取資料。
 
-**\[使用方式\]** 1. provide\(`String:Prop Name`, `Data:Any`\) 2. inject\(`String:Prop Name`, `Default Data`\)
+**\[使用方式\]**
+
+1. provide\(`String:Prop Name`, `Data:Any`\)
+2. inject\(`String:Prop Name`, `Default Data`\)
 
 ```markup
 <div id="app">
@@ -348,21 +365,31 @@ createApp({
 
 **待撰寫**
 
-撰寫備註： 1. 使用HTML Template 2. 使用Option template 3. 使用Render function
+撰寫備註：
 
-* 使用 setup 
-* 混用 setup + option
-  1. 為什麼需要JSX
+1. 使用HTML Template
+2. 使用Option template
+3. 使用Render function
+   * 使用 setup 
+   * 混用 setup + option
+4. 為什麼需要JSX
 
 ## \# component
 
 **待撰寫**
 
-撰寫備註： 1. Component的應用 2. Render function與component
+撰寫備註：
+
+1. Component的應用
+2. Render function與component
 
 ## \# 程式碼的拆分與組合概念
 
 **待撰寫**
 
-撰寫備註： 1. 程式撰寫風格的選擇，一定需要改變嗎？改變帶來了什麼？ 2. 拆分與組合程式碼，那些概念能為你帶來效益 3. 實例分析
+撰寫備註：
+
+1. 程式撰寫風格的選擇，一定需要改變嗎？改變帶來了什麼？
+2. 拆分與組合程式碼，那些概念能為你帶來效益
+3. 實例分析
 
