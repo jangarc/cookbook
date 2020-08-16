@@ -2,7 +2,7 @@
 description: VUE 3 Composition API / 可組合API
 ---
 
-# index
+# Composition API
 
 {% hint style="info" %}
 本篇主要針對Vue3的Composition API做說明，如果想簡略的了解為何該使用Composition API，請參考上一篇的[Composition API介紹](https://jang-arc.gitbook.io/my-cookbook/vue3/vue3_rfcs_note#zhi-you-jie-shao-composition-api-zu-he-shi-api)
