@@ -2,9 +2,7 @@
 description: Arc的個人筆記
 ---
 
-# index
-
-## \# INDEX \| 內容索引
+# \# INDEX \| 內容索引
 
 ### \#\# VUE 3
 
