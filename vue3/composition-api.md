@@ -612,7 +612,7 @@ app.mount("#app");
 // in vue2.x
 const app = new Vue({
   el: "#app",
-  template: `,div>...</div>`;
+  template: `<div>...</div>`;
   data: {},
   methods: {},
   computed: {},
@@ -627,7 +627,7 @@ const app = new Vue({
 ```javascript
 // in vue3.x option
 createApp({ // ［差異］
-  template: `,div>...</div>`;
+  template: `<div>...</div>`;
   data(){}, // ［差異］
   methods: {},
   computed: {},
@@ -635,7 +635,7 @@ createApp({ // ［差異］
   created(){},
   mounted(){},
 })
-.mount("#app");
+.mount("#app"); // ［差異］
 ```
 
 **\[ 使用Composition API建議的模式 \]**
@@ -661,7 +661,7 @@ createApp({
 ```javascript
 // in vue3.x composition
 
-// project A => init.js
+// project A => init.js ======================================
 import { counterModel } from "./model"
 import { counterControll } from "./controll"
 import { CounterView } from "./view"
@@ -674,7 +674,7 @@ return default createApp({
   }
 })
 
-// project B => init.js
+// project B => init.js ======================================
 import { CounterModel, LogModel } from "./model"
 import { counterControll, LogControll } from "./controll"
 import { CounterView, LogView } from "./view"
@@ -688,7 +688,8 @@ return default createApp({
       count,
       {
         onCountChange(changeInfo){
-          addLog( generateLog(`do ${changeInfo.type} count to ${changeInfo.value}`) )
+          let info = `do ${changeInfo.type} count to ${changeInfo.value}`;
+          addLog( generateLog(info) )
         }
       }
     );
@@ -696,13 +697,13 @@ return default createApp({
     return CounterView(
       count,
       { increase, decreasing },
-      logView()
+      logView
     );
   }
 })
 ```
 
-我將會在**\[拆分與組合程式碼\]**章節實踐上例
+我將會在 **\[ 拆分與組合程式碼 \]** 章節實踐上例
 
 {% hint style="info" %}
 在開發的過程中，並不需要一定得使用那一種開發方式來進行，因為我們都知道程式開發並不存在『銀彈』，而是要針對專案的各種狀況，進而評估使用那種方式最適合用來開發目前的專案。
@@ -714,7 +715,7 @@ return default createApp({
 
 **\[ Functional programming \| 函數式編程 \]**
 
-透過函數式編程來拆分或組合邏輯，我們先看一下未拆分別的範例：
+透過函數式編程來拆分或組合邏輯，我們先看一下未拆分的範例：
 
 ```javascript
 createApp({
@@ -833,7 +834,7 @@ memAdd(1, 1); // 第一次使用 => 2
 memAdd(1, 1); // 第二次使用 => 將會由快取返回結果 2
 ```
 
-給快取設定有效期限
+給快取指定有效期限
 
 ```javascript
 // 當我們給快取一個週期時
